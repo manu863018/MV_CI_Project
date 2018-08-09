@@ -39,7 +39,7 @@ pipelines:
                     destination: xml                    
               tabs:
                 unit_test: html/index.html              
-                test_report: xml/*.xml
+                test_report: xml/TEST-com.automationrhapsody.reststub.persistence.PersonDBTest.xml
       - CodeQuality:
           jobs:
             Check:
