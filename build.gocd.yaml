@@ -29,17 +29,21 @@ pipelines:
                     command: ./gradlew
                     arguments: 
                       - "clean"
-                      - "test"                                                              
+                      - "test"   
+                      - "jacocoTestReport"                      
               artifacts:
                 - build:
                     source: build/reports/tests/test/**/*
-                    destination: html
+                    destination: html       
+                - build:
+                    source: build/reports/jacoco/**/*
+                    destination: jacoco
                 - test:
                     source: build/test-results/test/*.xml
                     destination: xml                    
               tabs:
-                unit_test: html/index.html              
-                test_report: xml/TEST-com.automationrhapsody.reststub.persistence.PersonDBTest.xml
+                unit_test: html/index.html                 
+                code_coverage: jacoco/index.html 
       - CodeQuality:
           jobs:
             Check:
