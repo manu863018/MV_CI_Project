@@ -1,0 +1,50 @@
+format_version: 3
+pipelines:  
+  dropwizard-pipeline:
+    lock_behavior: lockOnFailure
+    group: CI_Project
+    materials:
+      repo:
+        git: https://github.com/manu863018/MV_CI_Project.git
+        branch: goCD_pipeline
+    stages:
+      - Build:
+          jobs:
+            building:
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments:
+                      - "clean"
+                      - "assemble"
+              artifacts:
+                - build:
+                    source: build/libs/*.jar
+                    destination: Build
+      - Test:
+          jobs:
+            Unit_Test:
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments: 
+                      - "clean"
+                      - "test"                                                              
+              artifacts:
+                - build:
+                    source: build/reports/tests/test/**/*
+                    destination: html
+                - test:
+                    source: build/test-results/test/*.xml
+                    destination: xml                    
+              tabs:
+                unit_test: html/index.html
+      - CodeQuality:
+          jobs:
+            Check:
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments:
+                      - sonarqube                                          
+ 
