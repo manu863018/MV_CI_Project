@@ -39,6 +39,8 @@ pipelines:
                     destination: xml                    
               tabs:
                 unit_test: html/index.html
+              tabs:
+                test_report: xml/*.xml
       - CodeQuality:
           jobs:
             Check:
