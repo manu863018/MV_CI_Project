@@ -36,3 +36,4 @@ capsule {
     applicationClass = 'com.automationrhapsody.reststub.RestStubApp'
   }
 }
+
