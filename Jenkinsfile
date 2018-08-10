@@ -14,7 +14,7 @@ pipeline {
         }
         stage('CodeQuality') {
             steps {
-                sh './gradlew check'              
+                sh './gradlew clean check'              
             }			
         }		
     }
