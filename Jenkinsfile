@@ -9,12 +9,12 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh './gradlew test jacocoTestReport'
+                sh './gradlew test jacocoTestReport check'
             }
         }
         stage('CodeQuality') {
             steps {
-                sh './gradlew check'              
+                sh './gradlew sonarqube'              
             }			
         }		
     }
