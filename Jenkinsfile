@@ -14,7 +14,7 @@ pipeline {
         }
         stage('CodeQuality') {
             steps {
-                sh './gradlew sonarqube'              
+                sh './gradlew check'              
             }			
         }		
     }
@@ -36,7 +36,39 @@ pipeline {
              reportDir: 'build/reports/jacoco',
              reportFiles: 'index.html',
              reportName: "Code Coverage"
-           ])	       
+           ])	 
+           publishHTML (target: [
+             allowMissing: false,
+             alwaysLinkToLastBuild: false,
+             keepAll: true,
+             reportDir: 'build/reports/pmd',
+             reportFiles: 'main.html',
+             reportName: "PMD Main Analysis"
+           ])	
+           publishHTML (target: [
+             allowMissing: false,
+             alwaysLinkToLastBuild: false,
+             keepAll: true,
+             reportDir: 'build/reports/pmd',
+             reportFiles: 'test.html',
+             reportName: "PMD Test Analysis"
+           ])	
+           publishHTML (target: [
+             allowMissing: false,
+             alwaysLinkToLastBuild: false,
+             keepAll: true,
+             reportDir: 'build/reports/findbugs',
+             reportFiles: 'main.html',
+             reportName: "Findbugs Main Analysis"
+           ])		  
+           publishHTML (target: [
+             allowMissing: false,
+             alwaysLinkToLastBuild: false,
+             keepAll: true,
+             reportDir: 'build/reports/findbugs',
+             reportFiles: 'test.html',
+             reportName: "Findbugs Test Analysis"
+           ])			   
        }
        success {
            archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
