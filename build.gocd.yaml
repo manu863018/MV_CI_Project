@@ -51,5 +51,25 @@ pipelines:
                 - exec:
                     command: ./gradlew
                     arguments:
-                      - sonarqube                                          
+                      - clean
+                      - check
+              artifacts:
+                - build:
+                    source: build/reports/pmd/main.html
+                    destination: pmd_html       
+                - build:
+                    source: build/reports/pmd/test.html
+                    destination: pmd_html    
+                - build:
+                    source: build/reports/findbugs/main.html
+                    destination: findbugs_html     
+                - build:
+                    source: build/reports/findbugs/test.html
+                    destination: findbugs_html                      
+              tabs:
+                pmd_main: pmd_html/main.html                 
+                pmd_test: pmd_html/test.html      
+                findbugs_main: findbugs_html/main.html                 
+                findbugs_test: findbugs_html/test.html                
+                      
  
