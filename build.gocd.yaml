@@ -67,9 +67,9 @@ pipelines:
                     source: build/reports/findbugs/test.html
                     destination: findbugs_html                      
               tabs:
-                pmd_main_report: pmd_html/main.html                 
-                pmd_test_report: pmd_html/test.html      
-                findbugs_main_report: findbugs_html/main.html                 
-                findbugs_test_report: findbugs_html/test.html                
+                pmd_main: pmd_html/main.html                 
+                pmd_test: pmd_html/test.html      
+                findbugs_main: findbugs_html/main.html                 
+                findbugs_test: findbugs_html/test.html                
                       
  
