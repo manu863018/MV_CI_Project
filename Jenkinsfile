@@ -81,9 +81,4 @@ pipeline {
             }
         }		
     }
-    post {
-        always {
-           	   
-       }     
-    }	
 }
