@@ -5,8 +5,8 @@ pipelines:
     group: CI_Project
     materials:
       repo:
-        git: https://github.com/devops-at06/MV_CI_Project.git
-        branch: master
+        git: https://github.com/manu863018/MV_CI_Project.git
+        branch: Package_stage_gocd
     stages:
       - Build:
           jobs:
@@ -17,10 +17,6 @@ pipelines:
                     arguments:
                       - "clean"
                       - "assemble"
-              artifacts:
-                - build:
-                    source: build/libs/*.jar
-                    destination: Build
       - Test:
           jobs:
             Unit_Test:
@@ -67,4 +63,17 @@ pipelines:
                 - exec:
                     command: ./gradlew
                     arguments:                      
-                      - "sonarqube"                                    
+                      - "sonarqube"   
+      - Package:
+          jobs:
+            Capsule:
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments:                      
+                      - "clean"
+                      - "capsule"   
+              artifacts:
+                - build:
+                    source: build/libs/*.jar
+                    destination: Build                      
