@@ -5,7 +5,8 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'jacoco'
-
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
 
 group = 'com.automationrhapsody.reststub'
 version = '1.0-SNAPSHOT'
@@ -59,3 +60,26 @@ capsule {
   }
 }
 
+pmd {     
+    ignoreFailures = true
+    ruleSets = [
+            'java-basic',
+            'java-braces',            
+            'java-codesize',
+            'java-comments',                       
+            'java-design',
+            'java-empty',            
+            'java-imports',                       
+            'java-strings',            
+            'java-unnecessary',
+            'java-unusedcode'
+    ]
+}
+
+tasks.withType(FindBugs) {
+    ignoreFailures = true
+    reports {
+        xml.enabled false
+        html.enabled true        
+    }
+}
