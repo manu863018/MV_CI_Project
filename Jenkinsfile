@@ -4,12 +4,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './gradlew clean assemble'               
+                sh './gradlew clean capsule'               
             }
+			post {
+                success {
+                    archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+                }
+            }			
         }
         stage('Test') {
             steps {
-                sh './gradlew test jacocoTestReport check'
+                sh './gradlew test jacocoTestReport'
             }
 			post {
                 success {
@@ -29,7 +34,16 @@ pipeline {
 					   reportDir: 'build/reports/jacoco',
 					   reportFiles: 'index.html',
 					   reportName: "Code Coverage"
-				     ])	 
+				     ])	 		                    
+                }
+            }			
+        }
+        stage('CodeQuality') {
+            steps {
+                sh './gradlew sonarqube check'              
+            }	
+			post {
+                success { 
 				     publishHTML (target: [
 					   allowMissing: false,
 					   alwaysLinkToLastBuild: false,
@@ -65,20 +79,10 @@ pipeline {
                 }
             }			
         }
-        stage('CodeQuality') {
+        stage('Deploy') {
             steps {
-                sh './gradlew sonarqube'              
-            }			
-        }
-        stage('Package') {
-            steps {
-                sh './gradlew clean capsule'              
+                sh './gradlew -b deploy.gradle deploy -Pdev_server=10.28.109.121 -Pwar_path=build/libs/'              
             }	
-			post {
-                success {
-                    archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
-                }
-            }
         }		
     }
 }
