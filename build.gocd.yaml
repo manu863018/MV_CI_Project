@@ -16,7 +16,11 @@ pipelines:
                     command: ./gradlew
                     arguments:
                       - "clean"
-                      - "assemble"
+                      - "capsule"
+              artifacts:
+                - build:
+                    source: build/libs/*.jar
+                    destination: Build                       
       - Test:
           jobs:
             Unit_Test:
@@ -25,8 +29,7 @@ pipelines:
                     command: ./gradlew
                     arguments:                       
                       - "test"   
-                      - "jacocoTestReport"   
-                      - "check"                      
+                      - "jacocoTestReport"                                         
               artifacts:
                 - build:
                     source: build/reports/tests/test/**/*
@@ -63,17 +66,44 @@ pipelines:
                 - exec:
                     command: ./gradlew
                     arguments:                      
-                      - "sonarqube"   
-      - Package:
+                      - "sonarqube"
+                      - "check"
+              artifacts:
+                - build:
+                    source: build/reports/pmd/main.html
+                    destination: pmd_html       
+                - build:
+                    source: build/reports/pmd/test.html
+                    destination: pmd_html    
+                - build:
+                    source: build/reports/findbugs/main.html
+                    destination: findbugs_html     
+                - build:
+                    source: build/reports/findbugs/test.html
+                    destination: findbugs_html                                         
+              tabs:
+                pmd_main: pmd_html/main.html                 
+                pmd_test: pmd_html/test.html      
+                findbugs_main: findbugs_html/main.html                 
+                findbugs_test: findbugs_html/test.html                      
+      - Deploy:
           jobs:
-            Capsule:
+            deploying:
               tasks:
                 - exec:
                     command: ./gradlew
-                    arguments:                      
-                      - "clean"
-                      - "capsule"   
-              artifacts:
-                - build:
-                    source: build/libs/*.jar
-                    destination: Build                      
+                    arguments:                                            
+                      - "-b"   
+                      - "deploy.gradle"
+                      - "deploy"
+                      - "-Pdev_server=10.28.109.121"
+                      - "-Pwar_path=build/libs/"                      
+      - Acceptande:
+          jobs:
+            testing:
+              tasks:
+                - exec:
+                    command: echo
+                    arguments:                                            
+                      - 'acceptance'                     
+ 
