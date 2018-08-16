@@ -15,8 +15,8 @@ task deploy {
     ssh.run {
       session(remotes.webServer) {	
         executeScript file('deploy-app.sh')
-        put from: 'build/libs/sample-dropwizard-rest-stub-1.0-SNAPSHOT-capsule.jar', into: '/home/ubuntu/'
-        execute 'nohup java -jar /home/ubuntu/sample-dropwizard-rest-stub-1.0-SNAPSHOT-capsule.jar &'
+        put from: 'build/libs/sample-dropwizard-rest-stub-1.0-SNAPSHOT-capsule.jar', into: '/home/ubuntu/jar_deploy/'
+        execute 'nohup java -jar /home/ubuntu/jar_deploy/sample-dropwizard-rest-stub-1.0-SNAPSHOT-capsule.jar &'
       }
     }
   }
