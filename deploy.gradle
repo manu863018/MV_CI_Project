@@ -16,10 +16,10 @@ task deploy {
       session(remotes.webServer) {	
         executeScript file('deploy-app.sh')
         put from: 'build/libs/sample-dropwizard-rest-stub-1.0-SNAPSHOT-capsule.jar', into: '/home/ubuntu/jar_deploy/'
-		put from: 'config.yml', into: '/home/ubuntu/jar_deploy/'
+        put from: 'config.yml', into: '/home/ubuntu/jar_deploy/'
         execute 'nohup java -jar /home/ubuntu/jar_deploy/sample-dropwizard-rest-stub-1.0-SNAPSHOT-capsule.jar server /home/ubuntu/jar_deploy/config.yml &'
       }
     }
   }
 }
-          
+
