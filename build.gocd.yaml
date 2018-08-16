@@ -77,7 +77,7 @@ pipelines:
                 - fetch:                    
                     stage: Build
                     job: building
-                    source: war/              
+                    source: Build/              
                 - exec:
                     command: ./gradlew
                     arguments:                                            
