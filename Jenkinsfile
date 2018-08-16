@@ -83,6 +83,11 @@ pipeline {
             steps {
                 sh './gradlew -b deploy.gradle deploy -Pdev_server=10.28.109.121 -Pwar_path=build/libs/'              
             }	
+        }
+        stage('Acceptande') {
+            steps {
+                echo 'Acceptance stage'
+            }	
         }		
     }
 }
