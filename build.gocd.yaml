@@ -36,29 +36,13 @@ pipelines:
                     destination: html       
                 - build:
                     source: build/reports/jacoco/**/*
-                    destination: jacoco
-                - build:
-                    source: build/reports/pmd/main.html
-                    destination: pmd_html       
-                - build:
-                    source: build/reports/pmd/test.html
-                    destination: pmd_html    
-                - build:
-                    source: build/reports/findbugs/main.html
-                    destination: findbugs_html     
-                - build:
-                    source: build/reports/findbugs/test.html
-                    destination: findbugs_html                     
+                    destination: jacoco                     
                 - test:
                     source: build/test-results/test/*.xml
                     destination: xml                    
               tabs:
                 unit_test: html/index.html                 
-                code_coverage: jacoco/index.html 
-                pmd_main: pmd_html/main.html                 
-                pmd_test: pmd_html/test.html      
-                findbugs_main: findbugs_html/main.html                 
-                findbugs_test: findbugs_html/test.html                
+                code_coverage: jacoco/index.html                 
       - CodeQuality:
           jobs:
             Check:
@@ -90,6 +74,10 @@ pipelines:
           jobs:
             deploying:
               tasks:
+                - fetch:                    
+                    stage: Build
+                    job: building
+                    source: war/              
                 - exec:
                     command: ./gradlew
                     arguments:                                            
@@ -98,12 +86,12 @@ pipelines:
                       - "deploy"
                       - "-Pdev_server=10.28.109.121"
                       - "-Pwar_path=build/libs/"                      
-      - Acceptande:
+      - Acceptance:
           jobs:
             testing:
               tasks:
                 - exec:
                     command: echo
                     arguments:                                            
-                      - 'acceptance'                     
+                      - 'acceptance testing'                     
  
