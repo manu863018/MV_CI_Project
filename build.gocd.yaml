@@ -85,7 +85,7 @@ pipelines:
                       - "deploy.gradle"
                       - "deploy"
                       - "-Pdev_server=10.28.109.121"
-                      - "-Pjar_path=Build/"                      
+                      - "-Pjar_path=Build"                      
       - Acceptance:
           jobs:
             testing:
