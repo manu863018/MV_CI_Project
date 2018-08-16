@@ -69,29 +69,5 @@ pipelines:
                 pmd_main: pmd_html/main.html                 
                 pmd_test: pmd_html/test.html      
                 findbugs_main: findbugs_html/main.html                 
-                findbugs_test: findbugs_html/test.html                      
-      - Deploy:
-          jobs:
-            deploying:
-              tasks:
-                - fetch:                    
-                    stage: Build
-                    job: building
-                    source: Build/              
-                - exec:
-                    command: ./gradlew
-                    arguments:                                            
-                      - "-b"   
-                      - "deploy.gradle"
-                      - "deploy"
-                      - "-Pdev_server=10.28.109.121"
-                      - "-Pwar_path=build/libs/"                      
-      - Acceptance:
-          jobs:
-            testing:
-              tasks:
-                - exec:
-                    command: echo
-                    arguments:                                            
-                      - 'acceptance testing'                     
+                findbugs_test: findbugs_html/test.html                     
  
