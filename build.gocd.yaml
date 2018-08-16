@@ -21,4 +21,26 @@ pipelines:
                 - build:
                     source: build/libs/*.jar
                     destination: Build                                            
- 
+      - Test:
+          jobs:
+            Unit_Test:
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments:                       
+                      - "test"   
+                      - "jacocoTestReport"                                         
+              artifacts:
+                - build:
+                    source: build/reports/tests/test/**/*
+                    destination: html       
+                - build:
+                    source: build/reports/jacoco/**/*
+                    destination: jacoco                     
+                - test:
+                    source: build/test-results/test/*.xml
+                    destination: xml                    
+              tabs:
+                unit_test: html/index.html                 
+                code_coverage: jacoco/index.html
+                
