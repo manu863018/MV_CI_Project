@@ -1,5 +1,5 @@
 echo 'Remove jar directory'		
-sudo rm -f /home/ubuntu/jar_deploy
-sudo mkdir /home/ubuntu/jar_deploy
+rm -rf /home/ubuntu/jar_deploy
+mkdir /home/ubuntu/jar_deploy
 
 
