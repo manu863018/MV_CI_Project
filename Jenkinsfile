@@ -4,8 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './gradlew clean capsule'
-                stash name: 'Build', includes: 'build/libs/*.jar'		    
+                sh './gradlew clean capsule'                
             }
             post {
                 success {
@@ -82,7 +81,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {                
-                sh './gradlew -b deploy.gradle deploy -Pdev_server=10.28.109.121 -Pjar_path=Build'              
+                sh './gradlew -b deploy.gradle deploy -Pdev_server=10.28.109.121 -Pjar_path=build/libs/'              
             }	
         }
         stage('Acceptance') {
@@ -90,5 +89,7 @@ pipeline {
                 echo 'Acceptance stage'
             }	
         }		
+        		
     }
 }
+
