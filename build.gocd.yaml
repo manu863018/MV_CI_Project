@@ -94,8 +94,7 @@ pipelines:
                     command: ./AT_Framework/gradlew
                     arguments:                                            
                       - "clean"
-                      - "test" 
-                      - "allureReport"
+                      - "test"                       
                       - "-p"
                       - "AT_Framework/"                      
 

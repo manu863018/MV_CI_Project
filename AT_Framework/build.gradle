@@ -27,7 +27,7 @@ allure {
     autoconfigure = false
     version = '2.6.0'
 	resultsDir = file('/allure-results')
-    reportDir = file('/allure-results')
+    reportDir = file('/allure-results')		
 }
 
 test {
