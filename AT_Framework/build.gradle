@@ -29,3 +29,7 @@ allure {
 	resultsDir = file('/allure-results')
     reportDir = file('/allure-results')
 }
+
+test {
+  ignoreFailures = true
+}
