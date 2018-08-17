@@ -86,8 +86,20 @@ pipeline {
         }
         stage('Acceptance') {
             steps {
-                echo 'Acceptance stage'
+                sh './AT_Framework/gradlew clean test -p AT_Framework/'
             }	
+			post {
+                success { 
+				     publishHTML (target: [
+					   allowMissing: false,
+					   alwaysLinkToLastBuild: false,
+					   keepAll: true,
+					   reportDir: 'AT_Framework/build/reports/cucumberhtml/cucumber-html-reports/',
+					   reportFiles: 'overview-features.html',
+					   reportName: "Cucumber Report"
+				     ])		                    
+                }
+            }			
         }		
         		
     }
