@@ -84,8 +84,8 @@ pipelines:
             deploying:
               tasks:
                 - fetch:                    
-                    stage: Build
-                    job: building
+                    stage: Package
+                    job: Capsule
                     source: Build/              
                 - exec:
                     command: ./gradlew
