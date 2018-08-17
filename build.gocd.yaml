@@ -99,7 +99,7 @@ pipelines:
                       - "AT_Framework/"      
               artifacts:
                 - build:
-                    source: build/reports/cucumberhtml/cucumber-html-reports/*
+                    source: AT_Framework/build/reports/cucumberhtml/cucumber-html-reports/*
                     destination: cucumberReport      
               tabs:
                 cucumber: cucumberReport/overview-features.html                     
