@@ -16,11 +16,7 @@ pipelines:
                     command: ./gradlew
                     arguments:
                       - "clean"
-                      - "capsule"
-              artifacts:
-                - build:
-                    source: build/libs/*.jar
-                    destination: Build                                            
+                      - "assemble"                                          
       - Test:
           jobs:
             Unit_Test:
@@ -69,7 +65,20 @@ pipelines:
                 pmd_main: pmd_html/main.html                 
                 pmd_test: pmd_html/test.html      
                 findbugs_main: findbugs_html/main.html                 
-                findbugs_test: findbugs_html/test.html                      
+                findbugs_test: findbugs_html/test.html   
+      - Package:
+          jobs:
+            Capsule:
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments:                      
+                      - "clean"
+                      - "capsule"
+              artifacts:
+                - build:
+                    source: build/libs/*.jar
+                    destination: Build                      
       - Deploy:
           jobs:
             deploying:
