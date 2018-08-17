@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh './gradlew clean capsule'
-                stash includes: 'build/libs/*.jar', name: 'Build' 				
+                stash name: 'Build', includes: 'build/libs/*.jar'		    
             }
             post {
                 success {
