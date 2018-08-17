@@ -91,7 +91,11 @@ pipelines:
             testing:
               tasks:
                 - exec:
-                    command: echo
+                    command: ./AT_Framework/gradlew
                     arguments:                                            
-                      - 'acceptance testing'
+                      - "clean"
+                      - "test" 
+                      - "allureReport"
+                      - "-p"
+                      - "AT_Framework/"                      
 
