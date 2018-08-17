@@ -91,7 +91,16 @@ pipelines:
             testing:
               tasks:
                 - exec:
-                    command: echo
+                    command: ./AT_Framework/gradlew
                     arguments:                                            
-                      - 'acceptance testing'
+                      - "clean"
+                      - "test"                       
+                      - "-p"
+                      - "AT_Framework/"      
+              artifacts:
+                - build:
+                    source: AT_Framework/build/reports/cucumberhtml/cucumber-html-reports/*
+                    destination: cucumberReport      
+              tabs:
+                cucumber: cucumberReport/overview-features.html                     
 
