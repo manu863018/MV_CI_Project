@@ -7,7 +7,7 @@ pipeline {
                 sh './gradlew clean capsule'
                 stash includes: 'build/libs/*.jar', name: 'Build' 				
             }
-			post {
+            post {
                 success {
                     archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
                 }
@@ -17,7 +17,7 @@ pipeline {
             steps {
                 sh './gradlew test jacocoTestReport'
             }
-			post {
+            post {
                 success {
 				     junit 'build/test-results/test/*.xml'
 				     publishHTML (target: [
