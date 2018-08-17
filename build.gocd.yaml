@@ -95,4 +95,3 @@ pipelines:
                     arguments:                                            
                       - 'acceptance testing'
 
-                      
