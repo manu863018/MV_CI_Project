@@ -4,12 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './gradlew clean capsule'                
-            }
-            post {
-                success {
-                    archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
-                }
+                sh './gradlew clean assemble'                
             }			
         }
         stage('Test') {
@@ -79,6 +74,16 @@ pipeline {
                 }
             }			
         }
+        stage('Package') {
+            steps {
+                sh './gradlew clean capsule'              
+            }	
+            post {
+                success {
+                    archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+                }
+            }
+        }	    
         stage('Deploy') {
             steps {                
                 sh './gradlew -b deploy.gradle deploy -Pdev_server=10.28.109.121 -Pjar_path=build/libs/'              
