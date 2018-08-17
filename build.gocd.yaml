@@ -5,8 +5,8 @@ pipelines:
     group: CI_Project
     materials:
       repo:
-        git: https://github.com/devops-at06/MV_CI_Project.git
-        branch: master
+        git: https://github.com/manu863018/MV_CI_Project.git
+        branch: GoCD_deploy_stage
     stages:
       - Build:
           jobs:
@@ -16,7 +16,11 @@ pipelines:
                     command: ./gradlew
                     arguments:
                       - "clean"
-                      - "assemble"
+                      - "capsule"
+              artifacts:
+                - build:
+                    source: build/libs/*.jar
+                    destination: Build                                            
       - Test:
           jobs:
             Unit_Test:
@@ -25,15 +29,30 @@ pipelines:
                     command: ./gradlew
                     arguments:                       
                       - "test"   
-                      - "jacocoTestReport"   
-                      - "check"                      
+                      - "jacocoTestReport"                                         
               artifacts:
                 - build:
                     source: build/reports/tests/test/**/*
                     destination: html       
                 - build:
                     source: build/reports/jacoco/**/*
-                    destination: jacoco
+                    destination: jacoco                     
+                - test:
+                    source: build/test-results/test/*.xml
+                    destination: xml                    
+              tabs:
+                unit_test: html/index.html                 
+                code_coverage: jacoco/index.html
+      - CodeQuality:
+          jobs:
+            Check:
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments:                      
+                      - "sonarqube"
+                      - "check"
+              artifacts:
                 - build:
                     source: build/reports/pmd/main.html
                     destination: pmd_html       
@@ -45,35 +64,34 @@ pipelines:
                     destination: findbugs_html     
                 - build:
                     source: build/reports/findbugs/test.html
-                    destination: findbugs_html                     
-                - test:
-                    source: build/test-results/test/*.xml
-                    destination: xml                    
+                    destination: findbugs_html                                         
               tabs:
-                unit_test: html/index.html                 
-                code_coverage: jacoco/index.html 
                 pmd_main: pmd_html/main.html                 
                 pmd_test: pmd_html/test.html      
                 findbugs_main: findbugs_html/main.html                 
-                findbugs_test: findbugs_html/test.html                
-      - CodeQuality:
+                findbugs_test: findbugs_html/test.html                      
+      - Deploy:
           jobs:
-            Check:
+            deploying:
               tasks:
+                - fetch:                    
+                    stage: Build
+                    job: building
+                    source: Build/              
                 - exec:
                     command: ./gradlew
-                    arguments:                      
-                      - "sonarqube"   
-      - Package:
+                    arguments:                                            
+                      - "-b"   
+                      - "deploy.gradle"
+                      - "deploy"
+                      - "-Pdev_server=10.28.109.121"
+                      - "-Pjar_path=Build"                      
+      - Acceptance:
           jobs:
-            Capsule:
+            testing:
               tasks:
                 - exec:
-                    command: ./gradlew
-                    arguments:                      
-                      - "clean"
-                      - "capsule"   
-              artifacts:
-                - build:
-                    source: build/libs/*.jar
-                    destination: Build                      
+                    command: echo
+                    arguments:                                            
+                      - 'acceptance testing'
+
