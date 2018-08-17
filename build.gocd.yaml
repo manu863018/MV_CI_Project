@@ -96,5 +96,11 @@ pipelines:
                       - "clean"
                       - "test"                       
                       - "-p"
-                      - "AT_Framework/"                      
+                      - "AT_Framework/"      
+              artifacts:
+                - build:
+                    source: build/reports/cucumberhtml/**/*
+                    destination: cucumberReport      
+              tabs:
+                cucumber: cucumberReport/overview-features.html                     
 
