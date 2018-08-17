@@ -84,7 +84,23 @@ pipeline {
                 sh './gradlew -b deploy.gradle deploy -Pdev_server=10.28.109.121 -Pjar_path=build/libs/'              
             }	
         }
-	        		
+        stage('Acceptance') {
+            steps {
+                sh './AT_Framework/gradlew clean test -p AT_Framework/'
+            }	
+			post {
+                success { 
+				     publishHTML (target: [
+					   allowMissing: false,
+					   alwaysLinkToLastBuild: false,
+					   keepAll: true,
+					   reportDir: 'AT_Framework/build/reports/cucumberhtml/cucumber-html-reports/',
+					   reportFiles: 'overview-features.html',
+					   reportName: "Cucumber Report"
+				     ])		                    
+                }
+            }			
+        }	        		
     }
 }
 
